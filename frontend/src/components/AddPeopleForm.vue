@@ -1,17 +1,43 @@
 <!-- Adds people to created voting -->
 
 <template>
-    <form action="#" v-if="isVisible">
-        <input type="text" placeholder="First Name">
-        <input type="text" placeholder="Last Name">
+    <form @submit.prevent="onSubmit" action="#" v-if="isVisible">
+        <input v-model="firstName" type="text" placeholder="First Name">
+        <input v-model="lastName" type="text" placeholder="Last Name">
         <button type="submit">Add Person</button>
     </form>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import { useStore } from 'vuex';
+
 const props = defineProps({
     isVisible: Boolean
 })
+
+const store = useStore();
+
+const firstName = ref('');
+const lastName = ref('');
+  
+const onSubmit = () => {
+    if (!firstName.value || !lastName.value) {
+        // If one or both fields are empty, show an error message
+        alert('Please fill out all fields.');
+        return;
+    }
+
+    const candidate = {
+      firstName: firstName.value,
+      lastName: lastName.value
+    };
+    // Dispatch the addVoting mutation with the new voting object
+    store.commit('addCandidate', candidate);
+    // Reset the form inputs
+    firstName.value = '';
+    lastName.value = '';
+}
 </script>
 
 

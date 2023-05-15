@@ -1,12 +1,13 @@
 <template>
     <div class="create-btn">
-        Create
+      Join
     </div>
 </template>
 
 <style>
 .create-btn {  
   display: inline-block;
+  margin: auto;
   padding: 15px;
   width: 300px;
   height: 80px;
@@ -56,4 +57,7 @@
 .create-btn:active::before{
   transform: translateY(0%) scale(0);
 }
+
+
+
 </style>

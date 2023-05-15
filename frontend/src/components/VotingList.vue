@@ -1,6 +1,9 @@
 <template>
     <div class="voting-list">
-        <Voting v-for="voting in votings" :key="voting.id" :voting="voting"/>
+        <Voting v-for="(voting, index) in votings" 
+                :key="index" 
+                :voting="voting"
+                @click="chooseVoting(index)"/>
     </div>
 </template>
 
@@ -8,11 +11,16 @@
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 
+
 import Voting from './Voting.vue';
 
 const store = useStore();
 
 const votings = computed(() => store.state.votings);
+
+const chooseVoting = (voting_id) => {
+  store.commit('chooseVoting', voting_id);
+}
 </script>
 
 <style>

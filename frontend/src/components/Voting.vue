@@ -18,8 +18,9 @@ const props = defineProps({
     height: 50px;
     margin-bottom: 15px;
 
-    background: violet;
-    border: 1px solid red;
+    background: #e47da8;
     border-radius: 1em;
+
+    color: aliceblue;
 }
 </style>

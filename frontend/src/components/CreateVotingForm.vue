@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="onSubmit" class="create-voting-form" v-if="isVisible">
-      <input v-model="name" type="text" placeholder="Voting name">
-      <input v-model="description" type="text" placeholder="Description">
+      <input v-model="name" type="text" placeholder="Voting name" required>
+      <input v-model="description" type="text" placeholder="Description" required>
   
       <button type="submit">Create voting 
         <svg class="" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 103 20">
@@ -31,7 +31,8 @@ const onSubmit = () => {
 
     const voting = {
       name: name.value,
-      description: description.value
+      description: description.value,
+      candidates: []
     };
     // Dispatch the addVoting mutation with the new voting object
     store.commit('addVoting', voting);
@@ -59,7 +60,16 @@ const onSubmit = () => {
     width: 300px;
     height: 40px;
 
+    border: none;
     border-radius: 1em;
+
+    color: #fff;
+    background-color: #18181b;
+    outline: 0;
+}
+
+.create-voting-form input::placeholder{
+  color: #525254;
 }
 
 .create-voting-form button{
