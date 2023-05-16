@@ -1,20 +1,25 @@
 <template>
-    <div class="voting-info">
+    <div class="voting-info" v-if="voting">
       <div class="voting-name">{{ voting.name }}</div>
       <div class="voting-description">{{ voting.description }}</div>
-      <div class="voting-candidates-list">
-        <div class="voting-candidate" v-for="candidate in candidates">
-          <div class="voting-candidate-first-name">{{ candidate.firstName }}</div>
-          <div class="voting-candidate-last-name">{{ candidate.lastName }}</div>
-          <!-- <div class="voting-candidate-description">{{ candidate.description }}</div> -->
-        </div>
+      <CandidateList :candidates="candidates"/>
+      <div class="voting-btn">Vote</div>
+
+      <div class="link" v-if="voting.id">
+        <a :href="'#/voting/' + voting.id">Link</a>
       </div>
+
+      <canvas id="qrcode-canvas" v-if="voting.id"></canvas>
+
     </div>
 </template>
   
 <script setup>
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
+import QRCode from 'qrcode';
+
+import CandidateList from "./CandidateList.vue";
 
   
 const store = useStore();
@@ -22,54 +27,76 @@ const votings = computed(() => store.state.votings);
 
 const selectedVoting = computed(() => store.state.selectedVoting);
 const voting = computed(() => votings.value[selectedVoting.value]);
+console.log(`Voting Key: ${votings.value[1].id}`);
+console.log(votings.value[1]);
 
 const candidates = computed(() => voting.value.candidates);
+
+const generateQRCode = async (text) => {
+    const canvas = document.getElementById('qrcode-canvas');
+
+     await QRCode.toCanvas(canvas, text, {
+      // QR code options (e.g., size, error correction level, etc.)
+    });
+};
+
+onMounted(() => {
+  generateQRCode('http://192.168.0.144:5173/#/' + voting.id);
+  console.log(`OnMounted Voting ID: ${voting.id}`);
+});
+
+
+
 </script>
   
 
 <style scoped>
-    .voting-info{
-        width: 300px;
-        height: auto;
-        padding: 20px 10px;
+.voting-info{
+    width: 300px;
+    height: auto;
+    padding: 20px 10px;
 
-        font-size: 16px;
-        color: #fff;
+    font-size: 16px;
+    color: #fff;
 
-        border: 1px solid #18181b;
-        border-radius: 10px;
-        background-color: #1e1f26;
-    }
+    border: 1px solid #18181b;
+    border-radius: 10px;
+    background-color: #1e1f26;
+}
 
-    .voting-name{
-        font-size: 30px;
-    }
+.voting-name{
+    font-size: 30px;
+}
 
-    .voting-description{
-        margin-top: 24px;
-        padding-left: 12px;
+.voting-description{
+    margin-top: 24px;
+    padding-left: 12px;
 
-        text-align: left;
-    }
+    text-align: left;
+}
 
-    .voting-candidates-list{
-        margin-top: 50px
-    }
+.voting-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 36px;
+    height: 50px;
 
-    .voting-candidate{
-        height: 50px;
-        margin-top: 12px;
+    font-size: 20px;
+    border-radius: 1em;
+    background-color: #7ed182;
+}
 
-        color: #fff;
-        font-size: 16px;
+.voting-btn:hover{
+    background-color: #005204;
+}
 
-        border-radius: 1em;
-        background-color: #18181b;
+#qrcode-canvas{
+    width: 200px;
+    height: 200px;
+    margin-top: 24px;
 
-    }
+    border-radius: 1em;
+}
 
-    .voting-candidate:hover{
-        color: #000;
-        background-color: #fff;
-    }
 </style>

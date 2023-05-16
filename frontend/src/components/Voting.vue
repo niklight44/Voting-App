@@ -12,15 +12,32 @@ const props = defineProps({
 })
 </script>
 
-<style>
+<style scoped>
 .voting{
     width: 300px;
     height: 50px;
     margin-bottom: 15px;
 
-    background: #e47da8;
+    background: #1e003a;
     border-radius: 1em;
 
     color: aliceblue;
+    overflow: hidden;
+}
+
+.voting:hover{
+    background-color: #7300df;
+}
+
+.active{
+    background-color: #7300df;
+}
+
+.name{
+    font-size: 16px;
+}
+
+.description{
+    font-size: 12px;
 }
 </style>

@@ -41,10 +41,15 @@
   z-index: -1;
   transform: translateY(15%) scale(.85);
   filter: blur(30px);
+  transition: 300ms;
 }
 
 .create-btn:hover{
     cursor: pointer;
+}
+
+.create-btn:hover::before{
+  filter: blur(40px);
 }
 
 

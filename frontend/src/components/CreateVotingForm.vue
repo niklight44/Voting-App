@@ -36,6 +36,7 @@ const onSubmit = () => {
     };
     // Dispatch the addVoting mutation with the new voting object
     store.commit('addVoting', voting);
+    store.commit('hideCreateVotingForm');
     // Reset the form inputs
     name.value = '';
     description.value = '';
