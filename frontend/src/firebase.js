@@ -4,7 +4,7 @@ import { getDatabase, onValue, ref, push, set, update, child } from "firebase/da
 import { useStore } from "vuex";
 
 // Your web app's Firebase configuration
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyB2gJ76hYC4LCf36Z2-l75OCMRnUqEAv5o",
   authDomain: "blockchain-fdfdd.firebaseapp.com",
   projectId: "blockchain-fdfdd",
@@ -97,7 +97,7 @@ export function getVoting(id){
     return sample;
 }
 
-export function addVotes(votingId, votes){
+export function uploadVotesToDatabase(votingId, votes){
     // Add votes to database
     let votingsRef = ref(db, "Votings");
     let votingRef = child(votingsRef, votingId);

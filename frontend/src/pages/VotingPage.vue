@@ -1,6 +1,8 @@
 <template>
     <h1>"Democracy is not just a privilege; it is a responsibility. It requires active participation, informed citizens, and constant vigilance to protect and uphold its values."</h1>
-    <div class="loading" v-if="!voting.name">...Loading</div>
+    <div class="loading" v-if="!voting.name">
+        <Loader/>
+    </div>
     <div class="voting-name" 
          v-if="voting && voting.name"> 
          {{ voting.name }} 
@@ -25,9 +27,11 @@
   
 <script setup>
 import { ref, onMounted, watch, reactive } from 'vue';
-import { getVoting, addVotes } from '../firebase';
+import { getVoting, uploadVotesToDatabase } from '../firebase';
 import {createBlock} from '../blockchain';
 import { useRoute } from 'vue-router';
+
+import Loader from '../components/Loader.vue';
 
 const currentRoute = useRoute();
 
@@ -39,7 +43,7 @@ const chooseCandidate = (index) =>{
 const votingBtnClickHandler = () =>  {
     let newBlock = createBlock(voting, chosenCandidate.value)
     voting.votes.push(newBlock);
-    addVotes(voting.id, voting.votes);
+    uploadVotesToDatabase(voting.id, voting.votes);                                  // Loading Votes in Firebase
     console.log(voting.votes);
 }
 const voting = reactive({});
@@ -47,9 +51,11 @@ const voting = reactive({});
 onMounted(async () => {
     const votingId = currentRoute.params.id;
     let fetchedValue = await getVoting(votingId);
+
     await new Promise((resolve) => {
         setTimeout(resolve, 2000); // Delay execution for 1 second
     });
+
     voting.id = votingId;
     voting.name = fetchedValue.name;
     voting.description = fetchedValue.description;

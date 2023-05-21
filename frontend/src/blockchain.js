@@ -1,7 +1,9 @@
-import { getAllVotings } from "./firebase";
+// import { getAllVotings } from "./firebase";
 
 
 export function createBlock(voting, candidate_id){
+    // voting: Object
+    // candidate_id: Int
     let votes = voting.votes;
     checkHashes(votes);
     let previousHash = getPreviousHash(votes);
