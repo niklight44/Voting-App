@@ -1,6 +1,8 @@
 <template>
     <header>
-        <div class="logo">VoteWise<span>.io</span></div>
+        <div class="logo">
+            <a :href="'#'" >VoteWise<span>.io</span></a>
+        </div>
     </header>
 </template>
 

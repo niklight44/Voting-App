@@ -9,7 +9,7 @@
         <CreateVotingForm :isVisible="isCreateVotingFormVisible" @submit="showAddPeopleForm"/>
         <AddPeopleForm :isVisible="isAddPeopleFormVisible"/>
 
-        <VotingInfo v-if="isVotingInfoVisible"/>
+        <VotingPreview v-if="isVotingPreviewVisible"/>
     </div>
 </template>
 
@@ -23,7 +23,7 @@ import CreateButton from '../components/CreateButton.vue';
 import CreateVotingForm from '../components/CreateVotingForm.vue';
 import VotingList from '../components/VotingList.vue';
 import AddPeopleForm from '../components/AddPeopleForm.vue';
-import VotingInfo from '../components/VotingInfo.vue';
+import VotingPreview from '../components/VotingPreview.vue';
 
 import { getAllVotings } from '../firebase';
 
@@ -33,14 +33,14 @@ let isCreateButtonVisible = ref(true);
 let isCreateVotingFormVisible = computed(() => store.state.isCreateVotingFormVisible);
 let isVotingListVisible = ref(false);
 let isAddPeopleFormVisible = computed(() => store.state.isAddPeopleFormVisible);
-let isVotingInfoVisible = ref(false);
+let isVotingPreviewVisible = ref(false);
 
 
 let showCreateVotingForm = () =>{
   isCreateButtonVisible.value = false;
   store.commit('showCreateVotingForm');
   isVotingListVisible.value = true;
-  isVotingInfoVisible.value = true;
+  isVotingPreviewVisible.value = true;
 }
 
 let showAddPeopleForm = () => {
