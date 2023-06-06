@@ -1,7 +1,9 @@
 <template>
     <form @submit.prevent="onSubmit" class="create-voting-form" v-if="isVisible">
-      <input v-model="name" type="text" placeholder="Voting name" required>
-      <input v-model="description" type="text" placeholder="Description" required>
+      <label for="voting-name">Voting Name</label>
+      <input v-model="name" type="text" placeholder="Mayor Election" id="voting-name" required>
+      <label for="voting-description">Description</label>
+      <input v-model="description" type="text" id="voting-description" placeholder="Every 4 year election" required>
   
       <button type="submit">Create voting 
         <svg class="" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 103 20">
@@ -13,7 +15,9 @@
   
 <script setup>
 import { ref } from 'vue';
-import {store} from '../store'  
+import { useStore } from 'vuex'; 
+
+const store = useStore();
 
 const props = defineProps({
     isVisible: Boolean
@@ -32,11 +36,16 @@ const onSubmit = () => {
     const voting = {
       name: name.value,
       description: description.value,
-      candidates: []
+      candidates: [],
+      votes: [
+        {previousHash: 0, candidate_id: 0, currentHash: 1234}
+      ]
     };
     // Dispatch the addVoting mutation with the new voting object
     store.commit('addVoting', voting);
     store.commit('hideCreateVotingForm');
+    store.commit('chooseVoting', store.state.votings.length - 1);
+    console.log(store.state.votings.length - 1)
     // Reset the form inputs
     name.value = '';
     description.value = '';
@@ -44,7 +53,7 @@ const onSubmit = () => {
 </script>
   
 
-<style>
+<style scoped>
 .create-voting-form{
     display: flex;
     flex-direction: column;
@@ -52,6 +61,12 @@ const onSubmit = () => {
 
     width: 500px;
     height: 500px;
+}
+
+.create-voting-form label{
+  width: 328px;
+  color: #6b6971;
+  text-align: left;
 }
 
 .create-voting-form input{

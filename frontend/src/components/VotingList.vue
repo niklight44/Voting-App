@@ -1,14 +1,10 @@
 <template>
     <div class="voting-list">
-        <Voting v-for="(voting, index) in votings" 
+        <VotingItem v-for="(voting, index) in votings" 
                 :key="index" 
                 :voting="voting"
                 :class="{ active: index === selectedVoting }"
                 @click="chooseVoting(index); votingClickHandler() "/>
-        <div class="voting-add-btn" 
-            @click="votingAddButtonClickHandler()">
-            +
-        </div>
     </div>
 </template>
 
@@ -17,7 +13,7 @@ import { computed } from 'vue';
 import { useStore } from 'vuex';
 
 
-import Voting from './Voting.vue';
+import VotingItem from './VotingItem.vue';
 
 const store = useStore();
 
@@ -34,10 +30,6 @@ const votingClickHandler = () => {
     store.commit('showAddPeopleForm')
 }
 
-const votingAddButtonClickHandler = () => {
-    store.commit('showCreateVotingForm');
-    store.commit('hideAddPeopleForm');
-}
 </script>
 
 <style scoped>

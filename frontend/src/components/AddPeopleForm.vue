@@ -2,8 +2,12 @@
 
 <template>
     <form @submit.prevent="onSubmit" action="#" v-if="isVisible">
-        <input v-model="firstName" type="text" placeholder="First Name">
-        <input v-model="lastName" type="text" placeholder="Last Name">
+        <label for="first-name">First Name: </label>
+        <input v-model="firstName" type="text" placeholder="John" id="first-name">
+        <label for="last-name">Last Name: </label>
+        <input v-model="lastName" type="text" placeholder="Tolkien" id="last-name">
+        <label for="description">Description</label>
+        <textarea v-model="description" type="text" placeholder="The Lord of the Rings' Author" id="description"> </textarea>
         <button type="submit">Add Person</button>
     </form>
 </template>
@@ -20,7 +24,8 @@ const store = useStore();
 
 const firstName = ref('');
 const lastName = ref('');
-  
+const description = ref('');  
+
 const onSubmit = () => {
     if (!firstName.value || !lastName.value) {
         // If one or both fields are empty, show an error message
@@ -51,14 +56,23 @@ form{
     height: 500px;
 }
 
+form label{
+    margin-bottom: 4px;
+    width: 328px;
+    color: #6b6971;
+    text-align: left;
+}
+
 form input{
     padding: 8px 16px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 
     width: 300px;
     height: 40px;
 
+    border: none;
     border-radius: 1em;
+    outline: 0;
 }
 
 form button{
@@ -67,6 +81,7 @@ form button{
     width: 200px;
     height: 40px;
 
+    margin-top: 40px;
     position: relative;
 
     font-size: 1.2em;
@@ -74,7 +89,20 @@ form button{
     color: #fff;
     background: #7857ff;
     box-sizing: content-box;
+    border: none;
     border-radius: 1.5em;
+    outline: 0;
+}
 
+form textarea{
+    padding: 8px 16px;
+    width: 300px;
+    height: 100px;
+
+    border: none;
+    border-radius: 1em;
+
+    outline: 0;
+    resize: none;
 }
 </style>

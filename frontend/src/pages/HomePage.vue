@@ -1,8 +1,8 @@
 <template>
     <div class="wrapper">
         <h1 v-if="isCreateButtonVisible">Your vote <span>matters</span>, and our app makes it count</h1>
-        <CreateButton 
-            @click="showCreateVotingForm()"
+        <JoinButton 
+            @click="router.push('/create-account')"
             v-if="isCreateButtonVisible"/>
 
         <VotingList v-if="isVotingListVisible"/>
@@ -18,8 +18,10 @@
 import {ref} from 'vue';
 import { useStore } from 'vuex';
 import { computed } from 'vue';
+import router from "../router";
 
-import CreateButton from '../components/CreateButton.vue';
+
+import JoinButton from '../components/JoinButton.vue';
 import CreateVotingForm from '../components/CreateVotingForm.vue';
 import VotingList from '../components/VotingList.vue';
 import AddPeopleForm from '../components/AddPeopleForm.vue';
@@ -35,6 +37,8 @@ let isVotingListVisible = ref(false);
 let isAddPeopleFormVisible = computed(() => store.state.isAddPeopleFormVisible);
 let isVotingPreviewVisible = ref(false);
 
+getAllVotings();
+
 
 let showCreateVotingForm = () =>{
   isCreateButtonVisible.value = false;
@@ -48,7 +52,6 @@ let showAddPeopleForm = () => {
   store.commit('showAddPeopleForm');
 }
 
-getAllVotings();
 </script>
 
 <style scoped>
@@ -61,6 +64,9 @@ getAllVotings();
 
   .wrapper h1{
     padding-top: 150px;
+
+    color: #fff;
+    text-align: center;
   }
 
   h1 span{

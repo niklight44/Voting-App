@@ -1,7 +1,5 @@
 <template>
-    <div class="wrapper">
-        <h1>"Democracy is not just a privilege; it is a responsibility. It requires active participation, informed citizens, and constant vigilance to protect and uphold its values."</h1>
-
+    <div class="wrapper">``````
         <VotingCard />
 
         <div class="candidate-description">

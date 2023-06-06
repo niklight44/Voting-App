@@ -42,7 +42,10 @@ async function addRandomVotes(votingID, numberOfVotes){
     }
 
     uploadVotesToDatabase(votingID, voting.votes);
+    console.log(`Datetime of first uploaded vote: ${voting.votes[1].datetime}`);
+    console.log(`Previous Hash of first uploaded vote: ${voting.votes[1].previousHash}`);
+    console.log(`Candidate ID of first uploaded vote: ${voting.votes[1].candidate_id}`);
 }
 
-addRandomVotes('-NVaXw7R2-x98d1pnMyB', 100);
+addRandomVotes('-NVaXw7R2-x98d1pnMyB', 1);
 

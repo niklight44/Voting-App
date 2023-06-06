@@ -1,11 +1,16 @@
 import { createStore } from "vuex";
-
-
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "./firebase";
+import router from "./router";
 
 export const store = createStore({
     state: {
+        user: null,
+
         votings: [
-            {  name: 'Example', description: 'This is an example of  voting', 
+            {  
+               id: '1234', 
+               name: 'Example', description: 'This is an example of  voting', 
                candidates: [
                 { firstName: 'Karen', lastName: 'Bass'},
                 { firstName: "Emma", lastName: "Smith" },
@@ -25,15 +30,28 @@ export const store = createStore({
             }
         ],
         selectedVoting: 0,
-        isCreateVotingFormVisible: false,
+        isCreateVotingFormVisible: true,
         isAddPeopleFormVisible: false,
+        selectedSidebarItem: null,
     },
     mutations: {
+        setUserFromLocalStorage(state) {
+            const user = localStorage.getItem('user');
+            state.user = user ? JSON.parse(user) : null;
+        },
+        
+        setUser(state, user) {
+            state.user = user
+        },
+
         addVoting: (state, voting) => {
-            state.votings.push(voting)
+            state.votings.push(voting);
         },
         setVotings: (state, votings) => {
             state.votings = state.votings.concat(votings);
+        },
+        restoreVotings: (state) => {
+            state.votings = [];
         },
         chooseVoting: (state, voting_id) => {
             state.selectedVoting = voting_id;
@@ -55,7 +73,34 @@ export const store = createStore({
         },
         hideAddPeopleForm: (state) => {
             state.isAddPeopleFormVisible = false;
+        },
+
+        chooseSidebarItem: (state, index) => {
+            state.selectedSidebarItem = index;
         }
     },
-    methods: {}  
+    actions: {
+        async login(context, { email, password }) {
+            try {
+              const userCredential = await signInWithEmailAndPassword(auth, email, password);
+              const user = userCredential.user;
+              context.commit('setUser', user);
+              console.log("User Succesfull Logged In");
+
+              router.push("/dashboard");
+
+              // Saving user in Local Storage
+              const userObject = {
+                email: email,
+                password: password
+              }
+              
+              console.log(userObject);
+              localStorage.setItem('user', JSON.stringify(userObject));
+            
+            } catch (error) {
+              console.log(error.message)
+            }
+          }
+    }
 })

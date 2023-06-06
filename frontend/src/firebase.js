@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getDatabase, onValue, ref, push, set, update, child } from "firebase/database";
+import { getAuth } from "firebase/auth";
 import { useStore } from "vuex";
 
 // Your web app's Firebase configuration
@@ -17,14 +18,14 @@ export const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase();
-
-// const votingsRef = ref(db, 'Votings/');
+export const auth = getAuth();
 
 // Reference to the votings collection in Firebase
 let votingsRef = ref(db, "Votings");
 
 // Function to retrieve all votings and save them to the Vuex store
 export function getAllVotings() {
+  // Save votes from Firebase to Store
   const store = useStore();
   onValue(votingsRef, (snapshot) => {
     // Convert the Firebase snapshot to an array of votings
@@ -38,6 +39,7 @@ export function getAllVotings() {
         votes: voting.val().votes,
       });
     });
+    store.commit("restoreVotings");
     // Update the Vuex store with the retrieved votings
     store.commit("setVotings", votingsArray);
   });
@@ -66,9 +68,12 @@ export function getAllVotings() {
 //   const newVotingRef = push(votingsRef);
 //   set(newVotingRef, newVoting);
 
-export function addVoting(voting){
+export function uploadVotingToDatabase(voting){
+  let votingsRef = ref(db, "Votings");
+
   const newVotingRef = push(votingsRef);
-  set(newVotingRef, newVotingRef);
+  set(newVotingRef, voting);
+  console.log('Voting Added to Firebase');
 }
 
 export function updateVoting(voting){

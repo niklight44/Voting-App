@@ -1,21 +1,22 @@
 // import { getAllVotings } from "./firebase";
 
-
 export function createBlock(voting, candidate_id){
     // voting: Object
     // candidate_id: Int
     let votes = voting.votes;
+    let datetime = Date.now();
     checkHashes(votes);
     let previousHash = getPreviousHash(votes);
-    let newHash = createNewHash(previousHash);
+    let newHash = createNewHash(previousHash, datetime);
 
-    return {previousHash: previousHash, candidate_id: candidate_id, currentHash: newHash}
+    return {
+            datetime: datetime,
+            previousHash: previousHash, 
+            candidate_id: candidate_id, 
+            currentHash: newHash
+            }
 }
 
-
-const votes = [{previousHash: 0, candidate_id: 0, currentHash: 1234}, 
-         {previousHash: 1234, candidate_id: 1, currentHash: 1235},
-         {previousHash: 1235, candidate_id: 1, currentHash: 1236}]
     
 
 export function checkHashes(votes) {
@@ -38,15 +39,23 @@ export function checkHashes(votes) {
 }
 
 export function getPreviousHash(votes){
-    // Takes last vote and make hash from it
+    // Takes last vote and get hash from it
 
     console.log(`Previous Hash: ${votes[votes.length - 1].currentHash}`);
     return votes[votes.length - 1].currentHash
 }
 
-export function createNewHash(previousHash){
-    return previousHash+1
+export function createNewHash(previousHash, datetime){
+    // TODO: Add datetime to previousHash
+    console.log(`PreviousHash: ${previousHash}, 
+                \n Datetime: ${datetime}. Sum: ${previousHash+datetime}`);
+    let newHash = previousHash + datetime
+    return newHash
 }
 
-console.log(`Hashes of votes are ${checkHashes(votes)}`);
+// console.log(`Hashes of votes are ${checkHashes(votes)}`);
 
+
+export function sendToNodes(block){
+    // Send Block to Nodes for Validation
+}

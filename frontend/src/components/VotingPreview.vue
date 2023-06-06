@@ -27,8 +27,9 @@ const votings = computed(() => store.state.votings);
 
 const selectedVoting = computed(() => store.state.selectedVoting);
 const voting = computed(() => votings.value[selectedVoting.value]);
-console.log(`Voting Key: ${votings.value[1].id}`);
-console.log(votings.value[1]);
+// console.log(`Voting Key: ${votings.value[1].id}`);
+// console.log(`Voting Key: ${voting.value.id}`);
+console.log(votings.value[0]);
 
 const candidates = computed(() => voting.value.candidates);
 
@@ -40,12 +41,10 @@ const generateQRCode = async (text) => {
     });
 };
 
-onMounted(() => {
-  generateQRCode('http://192.168.0.144:5173/#/' + voting.id);
-  console.log(`OnMounted Voting ID: ${voting.id}`);
-});
-
-
+// onMounted(async () => {
+//   await generateQRCode('http://192.168.0.144:5173/#/' + voting.value.id);
+//   console.log(`OnMounted Voting ID: ${voting.value.id}`);
+// });
 
 </script>
   
